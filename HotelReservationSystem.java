@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.util.Scanner;
 
 public class HotelReservationSystem {
-    private static final String url = "jdbc:mysql://localhost:3306/yourDBName";
-    private static final String username = "yourUserName";
-    private static final String password = "yourPassword";
+    private static final String url = "jdbc:mysql://localhost:3306/hotel_db";
+    private static final String username = "root";
+    private static final String password = "12345";
 
     public static void main(String[] args) {
         Connection connection = null;
@@ -36,7 +36,7 @@ public class HotelReservationSystem {
 
                 switch (choice) {
                     case 1:
-                        reserveRoom(connection, scanner);
+                        reserveRoom(connection, scanner);  // Updated method call
                         break;
                     case 2:
                         viewReservations(connection);
@@ -77,6 +77,22 @@ public class HotelReservationSystem {
         }
     }
 
+    // Method to check if a room is already reserved
+    private static boolean isRoomReserved(Connection connection, int roomNumber) {
+        try {
+            String sql = "SELECT room_number FROM reservations WHERE room_number = " + roomNumber;
+
+            try (Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery(sql)) {
+
+                return resultSet.next(); // If there's a result, the room is reserved
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Handle database errors as needed
+        }
+    }
+
     private static void reserveRoom(Connection connection, Scanner scanner) {
         try {
             System.out.print("Enter guest name: ");
@@ -86,6 +102,13 @@ public class HotelReservationSystem {
             System.out.print("Enter contact number: ");
             String contactNumber = scanner.next();
 
+            // Check if the room is already reserved
+            if (isRoomReserved(connection, roomNumber)) {
+                System.out.println("Room number " + roomNumber + " is already reserved.");
+                return;
+            }
+
+            // Reserve the room if it's not already reserved
             String sql = "INSERT INTO reservations (guest_name, room_number, contact_number) " +
                          "VALUES ('" + guestName + "', " + roomNumber + ", '" + contactNumber + "')";
 
