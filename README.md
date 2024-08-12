@@ -6,5 +6,7 @@ The system allows users to reserve rooms, view reservations, update or delete re
 Key technologies used include:
 
 Java: For building the application logic and user interface.
+
 JDBC (Java Database Connectivity): For connecting and executing SQL queries with the MySQL database.
-\nMySQL: The database management system storing reservation data.
+
+MySQL: The database management system storing reservation data.
