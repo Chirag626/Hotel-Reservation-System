@@ -7,4 +7,4 @@ Key technologies used include:
 
 Java: For building the application logic and user interface.
 JDBC (Java Database Connectivity): For connecting and executing SQL queries with the MySQL database.
-MySQL: The database management system storing reservation data.
+\nMySQL: The database management system storing reservation data.
